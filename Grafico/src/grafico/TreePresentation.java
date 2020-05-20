@@ -53,13 +53,13 @@ public class TreePresentation extends JPanel {
     }
 
     private Dimension CalculateSizeSubTree(BinaryNode Currentroot) {
-        if(Currentroot.equals(null))
+        if(Currentroot==null)
             return new Dimension(0, 0);
         Dimension leftDimension=CalculateSizeSubTree(Currentroot.getLeft());
         Dimension rightDimension=CalculateSizeSubTree(Currentroot.getRight());
         int height=fontMetrics.getHeight()+parentToChild+Math.max(leftDimension.height, rightDimension.height);
         int width=childToChild+leftDimension.width+rightDimension.width;
-        Dimension d= new Dimension(height, width);
+        Dimension d= new Dimension(width, height);
         subtreeSizes.put(Currentroot,d);
         return d;
     }
@@ -69,7 +69,7 @@ public class TreePresentation extends JPanel {
         Dimension firstDimension=(Dimension) subtreeSizes.get(n.getLeft());
         if(firstDimension==null)
             firstDimension=emptyDimension;
-        Dimension secondDimension=(Dimension) subtreeSizes.get(n.getLeft());
+        Dimension secondDimension=(Dimension) subtreeSizes.get(n.getRight());
         if(secondDimension==null)
             secondDimension=emptyDimension;
         int center = 0;

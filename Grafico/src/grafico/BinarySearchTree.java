@@ -5,6 +5,8 @@
  */
 package grafico;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author Brandon Velasquez,Mariana Palacios,Maria Alejandra Franco
@@ -158,5 +160,8 @@ public class BinarySearchTree {
         } else {
             return getMinor(currentRoot.getLeft());
         }
+    }
+    public JPanel getDraw() {
+        return new TreePresentation(this);
     }
 }
