@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class FormPrincipal extends javax.swing.JFrame {
 
     private BinarySearchTree tree;
+
     /**
      * Creates new form FormPrincipal
      */
@@ -25,12 +26,12 @@ public class FormPrincipal extends javax.swing.JFrame {
         initComponents();
         tree = new BinarySearchTree();
     }
-    
-    private void rePaintTree(){
+
+    private void rePaintTree() {
         this.jDesktopPanel.removeAll();
         Rectangle size = this.jInternalFrame1.getBounds();
         this.jInternalFrame1 = null;
-        this.jInternalFrame1 = new JInternalFrame("Representación gráfica",false);
+        this.jInternalFrame1 = new JInternalFrame("Representación gráfica", false);
         this.jDesktopPanel.add(this.jInternalFrame1);
         this.jInternalFrame1.setVisible(true);
         this.jInternalFrame1.setBounds(size);
@@ -38,7 +39,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         this.jInternalFrame1.add(this.tree.getDraw(), BorderLayout.CENTER);
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,21 +161,48 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        int dato=Integer.parseInt(txtNodos.getText());
-        if(!tree.Add(dato)){
-            JOptionPane.showMessageDialog(null,"Oe no","jaja",JOptionPane.WARNING_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(null,"Dato ingresado");
+        String texto = txtNodos.getText();
+        String[] numero = texto.split(",");
+        for (int i = 0; i < numero.length; i++) {
+            if (numero.length > 9) {
+                JOptionPane.showMessageDialog(null, "No se puede más de 9 números", "jaja", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                int dato = Integer.parseInt(numero[i]);
+                if (!tree.Add(dato)) {
+                    JOptionPane.showMessageDialog(null, "Oe no", "jaja", JOptionPane.WARNING_MESSAGE);
+                    break;
+                } else if (i == numero.length-1) {
+                    JOptionPane.showMessageDialog(null, "Dato ingresado");
+                }
+            }
         }
         rePaintTree();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        String texto = txtNodos.getText();
+        String[] numero = texto.split(",");
+        for (int i = 0; i < numero.length; i++) {
+            int dato = Integer.parseInt(numero[i]);
+            if(tree.Search(dato)==null){
+                JOptionPane.showMessageDialog(null, "El dato no existe");
+                break;
+            }else if (tree.Delete(dato)) {
+                if (i == numero.length-1) {
+                    JOptionPane.showMessageDialog(null, "Datos eliminados");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "aaaaa", "jaja", JOptionPane.WARNING_MESSAGE);
+                break;
+            }
+        }
+        rePaintTree();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
-        // TODO add your handling code here:
+        tree = new BinarySearchTree();
+        rePaintTree();
     }//GEN-LAST:event_btnCleanActionPerformed
 
     /**
