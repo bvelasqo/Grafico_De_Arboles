@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Brandon Velasquez
+ * @author Brandon Velasquez,Mariana Palacios,Maria Alejandra Franco
  */
 public class FormPrincipal extends javax.swing.JFrame {
 
