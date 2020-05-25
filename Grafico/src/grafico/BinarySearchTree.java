@@ -33,6 +33,8 @@ public class BinarySearchTree {
     }
 
     public boolean Add(int data) {
+        if(contNodos>=8)
+            return false;
         if (root == null) {
             root = new BinaryNode(data);
         } else //validar si el dato ya existe
@@ -93,6 +95,7 @@ public class BinarySearchTree {
             return false;
         } else {
             Delete(data, root);
+            contNodos--;
         }
         return true;
     }

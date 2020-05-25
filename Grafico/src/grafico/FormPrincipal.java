@@ -6,6 +6,7 @@
 package grafico;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Rectangle;
 import javax.swing.JInternalFrame;
 import javax.swing.JLayeredPane;
@@ -57,6 +58,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btnClean.setBackground(new java.awt.Color(204, 204, 204));
         btnClean.setText("Limpiar");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +66,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setBackground(new java.awt.Color(255, 51, 51));
         btnDelete.setText("Eliminar");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,6 +74,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnAdd.setBackground(new java.awt.Color(0, 51, 204));
         btnAdd.setText("Agregar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,10 +82,13 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
 
+        txtNodos.setBackground(new java.awt.Color(204, 204, 255));
+
         jDesktopPanel.setBackground(new java.awt.Color(0, 0, 153));
         jDesktopPanel.setForeground(new java.awt.Color(51, 51, 255));
         jDesktopPanel.setPreferredSize(new java.awt.Dimension(624, 422));
 
+        jInternalFrame1.setBackground(new java.awt.Color(102, 255, 255));
         jInternalFrame1.setIconifiable(true);
         jInternalFrame1.setMaximizable(true);
         jInternalFrame1.setResizable(true);
@@ -165,39 +172,47 @@ public class FormPrincipal extends javax.swing.JFrame {
         String[] numero = texto.split(",");
         for (int i = 0; i < numero.length; i++) {
             if (numero.length > 9) {
-                JOptionPane.showMessageDialog(null, "No se puede más de 9 números", "jaja", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se puede más de 9 números", "Error", JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
                 int dato = Integer.parseInt(numero[i]);
                 if (!tree.Add(dato)) {
-                    JOptionPane.showMessageDialog(null, "Oe no", "jaja", JOptionPane.WARNING_MESSAGE);
-                    break;
-                } else if (i == numero.length-1) {
-                    JOptionPane.showMessageDialog(null, "Dato ingresado");
+                    JOptionPane.showMessageDialog(null, "No fue posible ingresar el "+dato, "Error", JOptionPane.WARNING_MESSAGE);
+                }
+                else{
+                    rePaintTree();
                 }
             }
         }
         rePaintTree();
+        JOptionPane.showMessageDialog(null, "Datos ingresados");
+        txtNodos.setText("");
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        String texto = txtNodos.getText();
-        String[] numero = texto.split(",");
-        for (int i = 0; i < numero.length; i++) {
-            int dato = Integer.parseInt(numero[i]);
-            if(tree.Search(dato)==null){
-                JOptionPane.showMessageDialog(null, "El dato no existe");
-                break;
-            }else if (tree.Delete(dato)) {
-                if (i == numero.length-1) {
-                    JOptionPane.showMessageDialog(null, "Datos eliminados");
+        char[] datos = txtNodos.getText().toCharArray();
+        String data = "";
+        for (char c : datos) {
+            if (c == ',') {
+                int dato = Integer.parseInt(data);
+                if (tree.Search(dato) != null) {
+                    this.tree.Delete(dato);
+                    rePaintTree();
+                } else {
+                    JOptionPane.showMessageDialog(null, "el " + data + " No se encuentra", "Error", 1);
                 }
-            }else{
-                JOptionPane.showMessageDialog(null, "aaaaa", "jaja", JOptionPane.WARNING_MESSAGE);
-                break;
+                data = "";
+            } else {
+                data += c;
             }
         }
-        rePaintTree();
+        int dato = Integer.parseInt(data);
+        if (tree.Search(dato) != null) {
+            this.tree.Delete(dato);
+            rePaintTree();
+        }
+        JOptionPane.showMessageDialog(null, "Los datos fueron Eliminados correctamente", " ...", 1);
+        txtNodos.setText("");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCleanActionPerformed
